@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int twoCitySchedCost(vector<vector<int>>& costs) {
+
+        int n = costs.size();
+        int sum = 0;
+
+        // Sabko City A bhejo
+        for(int i = 0; i < n; i++) {
+            sum += costs[i][0];
+        }
+
+        // A se B shift karne ka extra cost
+        vector<int> diff;
+
+        for(int i = 0; i < n; i++) {
+            diff.push_back(costs[i][1] - costs[i][0]);
+        }
+
+        // Jinko B bhejne se sabse kam extra cost lagegi
+        sort(diff.begin(), diff.end());
+
+        // Exactly n/2 log B jayenge
+        for(int i = 0; i < n / 2; i++) {
+            sum += diff[i];
+        }
+
+        return sum;
+    }
+};
