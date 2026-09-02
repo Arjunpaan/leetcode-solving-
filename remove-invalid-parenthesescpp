@@ -1,0 +1,72 @@
+class Solution {
+public:
+
+    bool isValid(string s) {
+
+        stack<char> st;
+
+        for (char c : s) {
+
+            if (c == '(') {
+                st.push(c);
+            }
+
+            else if (c == ')') {
+
+                if (st.empty()) {
+                    return false;
+                }
+
+                st.pop();
+            }
+        }
+
+        return st.empty();
+    }
+
+
+    vector<string> removeInvalidParentheses(string s) {
+
+        vector<string> v;
+        vector<string> ans;
+
+        v.push_back(s);
+
+        while (true) {
+
+            // Current strings ko check karo
+            for (string x : v) {
+
+                if (isValid(x)) {
+                    ans.push_back(x);
+                }
+            }
+
+            // Valid strings mil gayi
+            if (!ans.empty()) {
+                return ans;
+            }
+
+            // Next level
+            set<string> next;
+
+            for (string x : v) {
+
+                for (int i = 0; i < x.size(); i++) {
+
+                    if (x[i] != '(' && x[i] != ')') {
+                        continue;
+                    }
+
+                    string temp =
+                        x.substr(0, i) +
+                        x.substr(i + 1);
+
+                    next.insert(temp);
+                }
+            }
+
+            v.assign(next.begin(), next.end());
+        }
+    }
+};
